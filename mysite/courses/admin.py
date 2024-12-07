@@ -1,11 +1,11 @@
 from django.contrib import admin
 from .models import *
-from .views import CertificateViewSet
+from .views import *
 
-admin.site.registerL(UserProfile)
-admin.site.registerL(Lesson)
-admin.site.registerL(Assignment)
-admin.site.registerL(ExamQuestions)
-admin.site.registerL(Exam)
-admin.site.registerL(CertificateViewSet)
-admin.site.registerL(Review)
+admin.site.register(UserProfile)
+admin.site.register(Lesson)
+admin.site.register(Assignment)
+admin.site.register(ExamQuestions)
+admin.site.register(Exam)
+admin.site.register(CertificateViewSet)
+admin.site.register(Review)
