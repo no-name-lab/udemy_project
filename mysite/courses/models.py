@@ -45,7 +45,7 @@ class Lesson(models.Model):
     course_url = models.URLField()
 
 
-class   Assignment(models.Model):
+class Assignment(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField()
     due_date = models.CharField(max_length=50)
@@ -78,5 +78,5 @@ class Review(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    comment = models.TimeField()
+    comment = models.TextField()
 
