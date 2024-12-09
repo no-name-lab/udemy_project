@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from .serializers import *
 from .models import *
 
@@ -8,9 +8,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
 
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseListApiViewViewSet(generics.ListAPIView):
     queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+    serializer_class = CourseListSerializer
+    
+    
+class CourseDetailApiViewViewSet(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseDetailSerializer
 
 
 class LessonViewSet(viewsets.ModelViewSet):

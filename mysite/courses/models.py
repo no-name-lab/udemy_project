@@ -14,7 +14,6 @@ class UserProfile(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
 
-
 class Course(models.Model):
     CATEGORY_CHOICES = [
         ('Программирование', 'Программирование'),
@@ -37,13 +36,18 @@ class Course(models.Model):
     def __str__(self):
         return self.course_name
 
+    def get_avg_rating(self):
+        ratings = self.reviews.all()
+        if ratings.exists():
+            return round(sum(i.rating for i in ratings) / ratings.count(), 1)
+        return 0
+
 
 class Lesson(models.Model):
     title = models.CharField(max_length=30)
     video_url = models.FileField(upload_to='vid/')
     content = models.TextField()
     course_url = models.URLField()
-
 
 class Assignment(models.Model):
     title = models.CharField(max_length=32)
@@ -52,11 +56,9 @@ class Assignment(models.Model):
     course = models.URLField()
     students = models.URLField()
 
-
 class ExamQuestions(models.Model):
     questions_name = models.CharField(max_length=32)
     questions = models.TextField()
-
 
 class Exam(models.Model):
     title = models.CharField(max_length=32)
@@ -65,18 +67,15 @@ class Exam(models.Model):
     passing_score = models.PositiveSmallIntegerField()
     duration = models.PositiveSmallIntegerField()
 
-
 class Certificate(models.Model):
     student = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     issued_at = models.DateTimeField()
     certificate_url = models.URLField()
 
-
-
 class Review(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='reviews')  
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
 
