@@ -30,6 +30,7 @@ class Course(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     level = models.CharField(max_length=15, choices=LEVEL_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -41,6 +42,20 @@ class Course(models.Model):
         if ratings.exists():
             return round(sum(i.rating for i in ratings) / ratings.count(), 1)
         return 0
+
+    def get_discount_info(self):
+        if self.original_price and self.price:
+            discount = (self.original_price - self.price) / self.original_price * 100
+            return {
+                "original_price": f"{self.original_price:.2f} $",
+                "discount": f"{discount:.0f}%",
+                "current_price": f"{self.price:.2f} $"
+            }
+        return {
+            "original_price": None,
+            "discount": "0%",
+            "current_price": f"{self.price:.2f} $"
+        }
 
 
 class Lesson(models.Model):
