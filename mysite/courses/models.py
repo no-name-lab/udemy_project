@@ -59,10 +59,12 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_lessons')
     title = models.CharField(max_length=30)
     video_url = models.FileField(upload_to='vid/')
     content = models.TextField()
-    course_url = models.URLField()
+
+
 
 class Assignment(models.Model):
     title = models.CharField(max_length=32)
